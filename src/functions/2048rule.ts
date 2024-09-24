@@ -38,28 +38,31 @@ const rotateMapCounterClockwise = (
     case 0:
       return map;
     case 90:
-      // return map.map((row,columnIndex) =>{row.map((_,rowIndex) => map[rowIndex][columnLength - columnIndex-1] )} )
       return Array.from({ length: columnLength }, (_, columnIndex) =>
         Array.from({ length: rowLength }, (_, rowIndex) => {
-          return map[rowIndex] === undefined
-            ? null
-            : map[rowIndex][columnLength - columnIndex - 1];
+          if (map[rowIndex] === undefined) throw new Error();
+          return map[rowIndex][columnLength - columnIndex - 1] ?? null;
         }),
       );
     case 180:
-      return Array.from({ length: rowLength }, (_, rowIndex) =>
-        Array.from({ length: columnLength }, (_, columnIndex) => {
-          return map[rowLength - rowIndex - 1] === undefined
-            ? null
-            : map[rowLength - rowIndex - 1][columnLength - columnIndex - 1];
-        }),
+      return Array.from(
+        { length: rowLength },
+        (_, rowIndex): (number | null)[] =>
+          Array.from({ length: columnLength }, (_, columnIndex) => {
+            const d = rowLength - rowIndex - 1;
+            if (map[d] === undefined) throw new Error();
+            return map[d][columnLength - columnIndex - 1] ?? null;
+          }),
       );
     case 270:
-      return Array.from({ length: columnLength }, (_, columnIndex) =>
-        Array.from(
-          { length: rowLength },
-          (_, rowIndex) => map[rowLength - rowIndex - 1][columnIndex],
-        ),
+      return Array.from(
+        { length: columnLength },
+        (_, columnIndex): (number | null)[] =>
+          Array.from({ length: rowLength }, (_, rowIndex) => {
+            const d = rowLength - rowIndex - 1;
+            if (map[d] === undefined) throw new Error();
+            return map[d][columnIndex] ?? null;
+          }),
       );
   }
 };
