@@ -131,7 +131,7 @@ const revertDegreeMap: DirectionDegreeMap = {
 };
 
 type Cell = number | null;
-export type Map2048 = Cell[][];
+type Map2048 = Cell[][];
 type Direction = 'up' | 'left' | 'right' | 'down';
 type RotateDegree = 0 | 90 | 180 | 270;
 type DirectionDegreeMap = Record<Direction, RotateDegree>;
